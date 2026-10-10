@@ -1,0 +1,120 @@
+THIRD FLOOR — KANAL KURULUMU
+=============================
+
+Takim: Green Bay Packers | Stadyum: Lambeau Field | Renk: Packers altini
+Kadro 2026 sezonuna gore: Jordan Love, Josh Jacobs, Micah Parsons, Xavier
+McKinney, Tucker Kraft, Christian Watson — bas antrenor Matt LaFleur,
+genel menajer Brian Gutekunst.
+
+Bu paket Weather Tuna'nin son halinden uretildi — yani Second Floor ve
+Eagles'ta OLMAYAN uc iyilestirme burada hazir geliyor:
+
+  1. Buyuk havuz ornekleme — her video havuzun farkli bir diliminden kurulur
+  2. Sahne cesitliligi    — arka arkaya benzer goruntu gelmez
+  3. Muzik duzeltmeleri   — ayni parcanin mp3/wav kopyalari birlestirilir
+
+Detaylari en altta.
+
+
+ADIM 1 — YENI DEPO AC
+---------------------
+github.com -> + -> New repository
+  Repository name : Third-Floor
+  Public sec
+  Add a README      -> ISARETLEME
+
+Isaretlersen push "unrelated histories" hatasi verir ve force push gerekir;
+Second Floor ve Eagles'ta ikisinde de bu olmustu.
+
+
+ADIM 2 — DOSYALARI KOPYALA
+--------------------------
+Code -> Open with GitHub Desktop, sonra bu zip'in icindekileri (OKU.txt
+haric) o klasore kopyala.
+
+Klasorde su kalmali:
+  .git  .github  assets  content  scripts  .gitignore  channel.json
+
+.github ve content Windows'ta gizli gorunebilir — Explorer'da "Hidden items"
+kutusunu ac.
+
+GitHub Desktop -> Summary: "ilk kurulum" -> Commit to main -> Push origin
+
+
+ADIM 3 — IZIN (sart)
+--------------------
+Settings -> Actions -> General -> en altta "Workflow permissions"
+"Read and write permissions" sec -> Save
+
+Bu olmadan video render edilir ama Release'e yuklenemez.
+API anahtarina gerek yok — sesi kendi programin uretiyor.
+
+
+ADIM 4 — STOK VIDEOLARI YUKLE
+-----------------------------
+Releases -> Create a new release
+  Tag / Title : broll
+  Dosya       : Packers stok videolarini surukle
+  ---> "Publish release"   ("Save draft" e BASMA)
+
+Bir release'e 1000 dosya siginiyor; dolunca broll2, broll3 diye devam et,
+sistem broll ile baslayan hepsini tek havuz sayiyor.
+
+Istege bagli:  music   ambient   photos
+
+music'e Suno parcalarini atarken hem mp3 hem wav yuklersen sorun degil,
+sistem ayni parcanin kopyalarini birlestiriyor ve sadece mp3'u indiriyor.
+
+
+ADIM 5 — ILK VIDEO
+------------------
+Ses otomasyonunda kanal listesine ekle, depo adi: Third-Floor
+Program metni seslendirip mp3'u content/queue icine yazacak.
+
+Elle yapmak istersen: mp3'u content/queue icine at, dosya adi videonun
+basligi olsun, commit + push.
+
+Render kaydinda goreceklerin:
+  STOK HAVUZU: 400 klipten 320 tanesi bu video icin secildi
+  [assemble] b-roll: 318 clips (offset 7)
+  [assemble] sahne cesitliligi: 96 farkli cekim ailesi (dosya adindan), ...
+  [assemble] music bed: 6 parca, 4 kez eklendi, -30.5 dB narration altinda
+  [assemble] DONE -> work/final.mp4
+
+"b-roll: 0 clips" yaziyorsa broll release'i taslakta kalmis demektir.
+
+
+ISTEGE BAGLI — TEK OYUNCUYA OZEL HAVUZ
+--------------------------------------
+Bir videoda sadece belirli klipler kullanilsin istersen:
+  Release tag : oyuncu-jordan-love   (ya da takim-green-bay-packers)
+  Icine en az 12 klip koy, Publish et.
+Metinde o isim en cok geciyorsa video sadece o havuzdan kurulur.
+
+
+YENI OZELLIKLER — NE YAPIYORLAR
+-------------------------------
+ORNEKLEME
+Havuz buyudukce hepsini her render'da indirmek diski doldurur ve indirmeyi
+isin en uzun adimi yapar. Sistem once dosya listesini cikariyor, ondan bu
+videoya ozel 320 klip seciyor ve sadece onlari indiriyor. Iki ardisik
+render'in ortak klibi ucte bir civarinda, yani videolar birbirine benzemiyor.
+Sayiyi degistirmek icin Settings -> Variables -> BROLL_SAMPLE
+
+SAHNE CESITLILIGI
+Her klipten tek kare alinip 6x6 piksele kuculturuluyor, bir nevi gorsel
+parmak izi. Dosya adindan da "cekim ailesi" cikariliyor. Sistem her kesimde
+onceki kesimle ayni aileden olanlari eliyor ve kalanlar icinden ekrandakine
+en az benzeyeni seciyor. 275 kesimlik olcumde ardisik ayni cekim 29'dan
+0'a, en benzer komsu cift 0.00'dan 0.31'e cikti.
+Kapatmak icin: Variables -> BROLL_LOOK_APART = 0
+
+MUZIK
+Ayni parcanin mp3 ve wav kopyalari tek parca sayiliyor (yoksa ayni muzik
+arka arkaya calabiliyordu). Muzik dongusunun parca siniri video suresine
+gore olceklendi. Bir de rapor satirinin yanlis blokta olmasi duzeltildi;
+eskiden ambient release'i yoksa muzik calsa bile "no music library"
+yaziyordu.
+
+NOT: Second Floor, Eagles ve diger NFL kanallarinda bu uc sey henuz yok.
+Istersen onlara da tasirim, soyle yeter.
